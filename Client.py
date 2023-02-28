@@ -1,3 +1,5 @@
+#region Libraries
+
 import socket
 import threading
 import pyaudio
@@ -7,6 +9,9 @@ import sys
 import win32api
 import win32gui
 
+#endregion
+
+#region Mute Script
 
 def mute(event = ''):
     WM_APPCOMMAND = 0x319
@@ -14,31 +19,38 @@ def mute(event = ''):
     hwnd_active = win32gui.GetForegroundWindow()
     win32api.SendMessage(hwnd_active, WM_APPCOMMAND, None, APPCOMMAND_MICROPHONE_VOLUME_MUTE)
 
+#endregion
+
+#region Connected
+
 def connected(ip, port, nickname):
     connectedGUI = Tk()
     connectedGUI.title("Lessy - Voice Chat")
-    connectedGUI.geometry("358x443+380+320")
+    connectedGUI.geometry("158x143+380+320")
     connectedGUI.resizable(False, False)
     connectedGUI.configure(bg = "black")
-    connectedGUI.bind('<Caps_Lock>', mute)
+    connectedGUI.bind('<Caps_Lock>',mute)
 
     serverLabel = Label(connectedGUI, text="{}:{}".format(ip, port), fg = "red", bg = "black")
     serverLabel.place(x = 5, y = 5)
     nicknameLabel = Label(connectedGUI, text="{}".format(nickname), fg = "red", bg = "black")
-    nicknameLabel.place(x=320,y=5)
+    nicknameLabel.place(x=5,y=115)
 
     muteButton = Button(connectedGUI, width=5, text="Mute", bg="black", fg="red", command = mute)
     muteButton.pack()
-    muteButton.place(x=170, y=25)
+    muteButton.place(x=61, y=60)
     connectedGUI.mainloop()
 
+#endregion
+
+#region Connect Function
 
 def connect(server,port,nickname,password):
     SERVER = server
     PORT = port
     PORT = int(PORT)
     PASSWORD = password
-    if PASSWORD == "Password": # Set this line whatever you want to use for password!
+    if PASSWORD == "onurc123": # Set this line whatever you want to use for password!
         mainGUI.destroy()
         threadPanelThread = threading.Thread(target = connected,args=(SERVER, PORT, nickname))
         threadPanelThread.start()
@@ -95,44 +107,50 @@ def connect(server,port,nickname,password):
 def quit():
     sys.exit(0)
 
+#endregion
+
+#region First Gui
 
 if __name__ == "__main__":
     mainGUI = Tk()
     mainGUI.title("Connect")
     mainGUI.geometry("358x143+780+420")
     mainGUI.resizable(False, False)
-    mainGUI.bind("<Return>", lambda: connect(serverEntry.get(), portEntry.get(), nicknameEntry.get(), passwordEntry.get(), mainGUI))
+    mainGUI.configure(background="black")
+    mainGUI.bind("<Return>", lambda x: connect(serverEntry.get(), portEntry.get(), nicknameEntry.get(), passwordEntry.get()), mainGUI)
     # ServerLabel
-    serverLabel = Label(mainGUI,text = "Ip adress:",fg="black")
+    serverLabel = Label(mainGUI,text = "Ip adress:",fg="red",bg="black")
     serverLabel.place(x = 18, y = 5)
     # ServerEntry
-    serverEntry = Entry(mainGUI, width = 34, fg = "black", borderwidth = 1, relief = "solid")
+    serverEntry = Entry(mainGUI, width = 34, fg = "red", borderwidth = 1, relief = "solid")
     serverEntry.pack(side = RIGHT)
     serverEntry.place(x = 20, y = 30)
     serverEntry.focus()
     # PortLabel
-    portLabel = Label(mainGUI, text = "Port:", fg = "black")
+    portLabel = Label(mainGUI, text = "Port:", fg="red",bg="black")
     portLabel.place(x = 240, y = 5)
     # PortEntry
-    portEntry = Entry(mainGUI, width = 15, fg = "black", borderwidth = 1, relief = "solid")
+    portEntry = Entry(mainGUI, width = 15, fg = "red", borderwidth = 1, relief = "solid")
     portEntry.pack()
     portEntry.place(x = 242, y = 30)
     # NicknameLabel
-    nicknameLabel = Label(mainGUI, text = "Nickname:",fg = "black")
+    nicknameLabel = Label(mainGUI, text = "Nickname:",fg="red",bg="black")
     nicknameLabel.place(x = 18, y = 55)
     # NicknameEntry
-    nicknameEntry = Entry(mainGUI, width=34, fg = "black", borderwidth = 1, relief = "solid")
+    nicknameEntry = Entry(mainGUI, width=34, fg = "red", borderwidth = 1, relief = "solid")
     nicknameEntry.pack(side = RIGHT)
     nicknameEntry.place(x = 20, y = 80)
     # PasswordLabel
-    passwordLabel = Label(mainGUI, text = "Password:",fg = "black")
+    passwordLabel = Label(mainGUI, text = "Password:",fg="red",bg="black")
     passwordLabel.place(x = 240,y = 55)
     # PasswordEntry
-    passwordEntry = Entry(mainGUI, width=15, fg = "black", borderwidth = 1, relief = "solid")
+    passwordEntry = Entry(mainGUI, width=15, fg = "red", borderwidth = 1, relief = "solid")
     passwordEntry.pack()
     passwordEntry.place(x = 242, y = 80)
-    # LoginButton
-    loginButton = Button(mainGUI, width=7, text = "Log In", borderwidth = 1, relief = "solid",command = lambda: connect(serverEntry.get(), portEntry.get(), nicknameEntry.get(), passwordEntry.get()))
-    loginButton.pack()
-    loginButton.place(x = 155, y = 110)
+    # ConnectButton
+    connectButton = Button(mainGUI, width=7, text = "Connect", bg="black",fg="red",borderwidth = 1, relief = "solid",command = lambda: connect(serverEntry.get(), portEntry.get(), nicknameEntry.get(), passwordEntry.get()))
+    connectButton.pack()
+    connectButton.place(x = 155, y = 110)
     mainGUI.mainloop()
+
+#endregion
