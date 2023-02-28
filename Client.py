@@ -50,7 +50,7 @@ def connect(server,port,nickname,password):
     PORT = port
     PORT = int(PORT)
     PASSWORD = password
-    if PASSWORD == "onurc123": # Set this line whatever you want to use for password!
+    if PASSWORD == "Password": # Set this line whatever you want to use for password!
         mainGUI.destroy()
         threadPanelThread = threading.Thread(target = connected,args=(SERVER, PORT, nickname))
         threadPanelThread.start()
