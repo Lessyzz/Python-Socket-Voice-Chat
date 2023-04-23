@@ -11,17 +11,11 @@ import win32gui
 
 #endregion
 
-#region Mute Script
-
 def mute(event = ''):
     WM_APPCOMMAND = 0x319
     APPCOMMAND_MICROPHONE_VOLUME_MUTE = 0x180000
     hwnd_active = win32gui.GetForegroundWindow()
     win32api.SendMessage(hwnd_active, WM_APPCOMMAND, None, APPCOMMAND_MICROPHONE_VOLUME_MUTE)
-
-#endregion
-
-#region Connected
 
 def connected(ip, port, nickname):
     connectedGUI = Tk()
@@ -41,9 +35,6 @@ def connected(ip, port, nickname):
     muteButton.place(x=61, y=60)
     connectedGUI.mainloop()
 
-#endregion
-
-#region Connect Function
 
 def connect(server,port,nickname,password):
     SERVER = server
@@ -107,7 +98,6 @@ def connect(server,port,nickname,password):
 def quit():
     sys.exit(0)
 
-#endregion
 
 #region First Gui
 
